@@ -4,33 +4,19 @@ final class data_base_query{
      private $email;
      private $password;
 
-   /*  function __construct(){
-              if(isset($_POST['email']) && isset($_POST['']))
-                     $this->email = "$_POST['email']";
-                     $this-> = "$_POST['']";
-                     unset($_POST['email']);
-                     unset($_POST['']);
-               }
-      } */
+   
       function make_password($key){
                   $newkey=strtoupper($key).strtolower($key);
                   return md5($newkey);
-                  //echo md5($newkey);
       }
       function check_email($address){
             if(strpos($address,'(')>=0 || strpos($address, ')') >=0 || strpos($address,'\'')>=0 || strpos($address, '"')>=0 || strpos($address,'/')>=0 || strpos($address,'\\')){
-                echo"hello";
+                return 0;
             }
+           else{
+           
+           }
 
-      }
-      function make_email($address){
-
-               $length = strlen($address);
-               $at = strrpos($address,"@");
-               $dot = strrpos($address,".");
-               print_r($at);
-               print_r($dot);
-               echo $address;
       }
 
      function __call($method , $arguments){
@@ -405,13 +391,6 @@ final class data_base_query{
 
 $object = new data_base_query();
 
-if($x = $object->return_value('data','tac','first','last','chand'))
-{
-  echo"data is present ";
-}
-else{
-  echo"no data";
-}
 /*$object->check_value(data_base , table_name , filed_name , value);
 $object->check_value(data_base , table_name , filed_name , value , field_name , value);
 

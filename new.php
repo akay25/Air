@@ -2,11 +2,20 @@
 final class data_base_query{
 
      private $link_open;
+     private $host;
+     private $user;
+     private $key;
+
+     function __construct($host,$user,$key){
+           $this->host = $host;
+           $this->user = $user;
+           $this->key = $key;
+     }
 
    
      function db_conn($da_name){
 
-            $this->link_open = mysqli_connect("localhost","root","");
+            $this->link_open = mysqli_connect("$this->host","$this->user","$this->key");
             if(!$this->link_open){ 
                    echo "Failed to connect to MySQL: " . mysqli_connect_error();
                    return 0;
@@ -569,7 +578,7 @@ final class data_base_query{
 
 }  //class ends 
 
-$object = new data_base_query();
+$object = new data_base_query("localhost","root","");
 //echo $object->make_password("password");
 
 /*$object->check_value(data_base , table_name , filed_name , value);
@@ -598,19 +607,9 @@ $object->d_update_value(database , table_name , update_field , update_value , up
 //$object->insert_value("data" , "tac" , "first" , "last" , "email" , "home" , "" , "sharma","sharma@gmail.com","alighar");
 
 if($x = $object->check_value('data','tac','last','chand')){
- 
-  echo"data present".$x;
-
+     echo"data present".$x;
 }
 else{
-  echo"do not present";
+     echo"do not present";
 }
-
-if($object->update_value('data','tac','first','shubham','first','null')){
-       echo"<br> database updated";
-}
-else{
-  echo"<br> database not updated";
-}
-
 ?>

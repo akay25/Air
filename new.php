@@ -534,11 +534,25 @@ final class data_base_query{
                                if(!data_base_query::db_conn($arguments[0])){
                                         return 0;
                                 }
-                              
-                               $Q = "SELECT $arguments[2] FROM $arguments[1] WHERE $arguments[3] LIKE  '$arguments[4]%'";
-                               if(mysqli_query($this->link_open,$Q)){
-                                     
+                               $Q = "SELECT $arguments[2] FROM $arguments[1] WHERE $arguments[3] LIKE  '$arguments[4]'";
+                               if($run = mysqli_query($this->link_open,$Q)){
+                                    if(mysqli_num_row($run)>0){
+                                         $result =array();
+                                         while($rows = mysqli_fetch_array($run)){
+                                             $result  = $rows[$arguments[2]];
+                                         }
+                                         mysqli_close($this->link_open);
+                                         return $result;
+                                    }
+                                    else{
+                                         mysqli_close($this->link_open);
+                                         return 0;
+                                    }
                                }
+                               else{
+                                    mysqli_close($this->link_open);
+                                    return 0;
+                              }
                      }
              }
              else if($method == "delete"){

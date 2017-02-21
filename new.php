@@ -535,11 +535,11 @@ final class data_base_query{
                                         return 0;
                                 }
                                $Q = "SELECT $arguments[2] FROM $arguments[1] WHERE $arguments[3] LIKE  '$arguments[4]'";
-                               if($run = mysqli_query($this->link_open,$Q)){
-                                    if(mysqli_num_row($run)>0){
+                               if($runquery = mysqli_query($this->link_open,$Q)){
+                                    if(mysqli_num_rows($runquery)>0){
                                          $result =array();
-                                         while($rows = mysqli_fetch_array($run)){
-                                             $result  = $rows[$arguments[2]];
+                                         while($rows = mysqli_fetch_array($runquery)){
+                                             $result[]  = $rows[$arguments[2]];
                                          }
                                          mysqli_close($this->link_open);
                                          return $result;
@@ -618,7 +618,7 @@ $object->d_update_value(database , table_name , update_field , update_value , up
 */
 //$object->insert_value("data_xyz" , "table_abc" , "f_name" , "l_name" , "email" , "rahul" , "chand" , "chandrahul41@gmail.com");
 //$object->insert_value(database , table_name , update_field , update_value , update_field , update_value , field_name , value , field_name , value);
-//$object->insert_value("data" , "tac" , "first" , "last" , "email" , "home" , "" , "sharma","sharma@gmail.com","alighar");
+//$object->search('database','table','return_field','field_name','pattern');
 
 if($x = $object->check_value('data','tac','last','chand')){
      echo"data present".$x;

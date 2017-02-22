@@ -498,14 +498,8 @@ final class data_base_query{
 
  }
 
-}  //class ends 
+} 
 
 $object = new data_base_query('localhost','root','');
-if($x = $object->return_match_value('data','tac','first','last','email','chandrahul028@gmail.')){
-  print_r($x);
-}
-else{
-  echo"error";
-}
 
 ?>

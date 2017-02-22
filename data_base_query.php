@@ -29,7 +29,7 @@ final class data_base_query{
              return 1;
      }
 
-          function insert(){
+          function insert_value(){
 
                  $arg_num = func_num_args();
                  $arguments = func_get_args();
@@ -147,7 +147,7 @@ final class data_base_query{
           }
 
 
-           function search(){
+           function search_value(){
 
                    $arg_num = func_num_args();
                    $arguments = func_get_args();
@@ -446,7 +446,7 @@ final class data_base_query{
         }
  }
 
- function return_dmatch_value(){
+ function return_d_match_value(){
 
        $arg_num = func_num_args();
         $arguments = func_get_args();

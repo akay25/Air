@@ -85,7 +85,7 @@ final class data_base_query{
                               }
                        }
                        else{
-                              echo"<br>check arguments<br>";
+                              echo"<br>check number of arguments<br>";
                               return 0;
                        }
         }
@@ -141,7 +141,7 @@ final class data_base_query{
                          } 
                     }
                     else{
-                         echo"<br>Check arguments<br>";
+                         echo"<br>Check number of arguments<br>";
                          return 0;
                     }
           }
@@ -203,7 +203,7 @@ final class data_base_query{
                                }
                      }
                      else{
-                             echo"check arguments";
+                             echo"check number of arguments";
                              return 0;
                      }
              }
@@ -260,7 +260,7 @@ final class data_base_query{
                     }
              }
             else{
-                    echo"check arguments";
+                    echo"check number of arguments";
                     return 0;
             }
  }
@@ -323,7 +323,7 @@ final class data_base_query{
                     }
              }
               else{
-                    echo"check arguments";
+                    echo"check number of arguments";
                     return 0;
              }
  }
@@ -379,7 +379,7 @@ final class data_base_query{
                 }
            }
           else{
-               echo "<br>insufficent arguments</br>";
+               echo "<br>check number of arguments</br>";
                return 0;
           }
  }
@@ -441,7 +441,7 @@ final class data_base_query{
                 }
         }
         else{
-            echo"<br>insufficent arguments<br>";
+            echo"<br>check number of arguments<br>";
              return 0;
         }
  }
@@ -510,7 +510,7 @@ final class data_base_query{
                 }
         }
         else{
-          echo"<br>insufficent arguments<br>";
+          echo"<br>check number of arguments<br>";
           return 0;
         }
  } 
@@ -567,7 +567,7 @@ final class data_base_query{
               }
            }
            else{
-                  echo"<br>check arguments<br>";
+                  echo"<br>check number of arguments<br>";
                   return 0;
            }
   }
@@ -607,6 +607,66 @@ final class data_base_query{
                    }
             }
             else{
+                  echo"<br>check number of arguments<br>";
+                  return 0;
+            }
+  }
+     
+     function select_query(){
+              
+            $args_num = func_num_args();
+            $arguments = func_get_args();
+
+            if($args_num > 3){
+
+                 if(!data_base_query::db_conn($arguments[0])){
+                          return 0;
+                   }
+                
+                  $Q = "SELECT ";  
+                   $x = 2;
+                   while($x < $args_num-1){
+                       
+                       if($x == 2){
+                            $Q = $Q.$arguments[$x];
+                       }
+                       else{
+                            $Q = $Q.",".$arguments[$x];
+                       }
+                       $x++;
+                   }
+                   $Q = $Q." FROM ".$arguments[1]." WHERE ".$arguments[$x];
+                 
+                   if($runquery = mysqli_query($this->link_open,$Q)){
+                        if(mysqli_num_rows($runquery) >= 1){
+                              $result = array();
+                              while($data = mysqli_fetch_array($runquery)){
+                                   if($args_num == 4){
+                                         $result[] =  $data[$arguments[2]];
+                                    } 
+                                   else {
+                                         $x = 2;
+                                         while($x < $args_num-1){
+                                              $result[$x-2][] = $data[$arguments[$x]];
+                                              $x++;
+                                         }
+                                   }                                       
+                              }
+                            mysqli_close($this->link_open);
+                            return $result;
+                        }
+                       else{
+                            mysqli_close($this->link_open);
+                            return 0 ;
+                         }
+                    }
+                   else{
+                            echo"<br> make sure your arguments once again<br>";
+                            mysqli_close($this->link_open);
+                            return 0 ;
+                   }
+            }
+            else{ 
                   echo"<br>check number of arguments<br>";
                   return 0;
             }

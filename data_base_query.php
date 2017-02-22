@@ -12,14 +12,14 @@ final class data_base_query{
            $this->key = $key;
      }
      
-     function db_conn($da_name){
+     function db_conn($data_base){
 
             $this->link_open = mysqli_connect("$this->host","$this->user","$this->key");
             if(!$this->link_open){ 
                    echo "Failed to connect to MySQL: " . mysqli_connect_error();
                    return 0;
              }
-            $dc = mysqli_select_db($this->link_open,"$da_name");
+            $dc = mysqli_select_db($this->link_open,"$data_base");
             if(!$dc){
                    mysqli_close($this->link_open);
                    unset($dc);

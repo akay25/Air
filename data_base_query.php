@@ -11,8 +11,7 @@ final class data_base_query{
            $this->user = $user;
            $this->key = $key;
      }
-
-   
+     
      function db_conn($da_name){
 
             $this->link_open = mysqli_connect("$this->host","$this->user","$this->key");
@@ -126,8 +125,7 @@ final class data_base_query{
                                 }
                          }
                          if(mysqli_query($this->link_open,$Q)){
-                                  if($result = mysqli_affected_rows($this->link_open)){
-                                        
+                                  if($result = mysqli_affected_rows($this->link_open)){  
                                         mysqli_close($this->link_open);
                                         return $result;
                                   }
@@ -161,7 +159,6 @@ final class data_base_query{
                                 }
 
                                $Q = "SELECT ";
-
                                $x = 2;
                                while($x < $arg_num-2){
 
@@ -172,7 +169,6 @@ final class data_base_query{
                                          $Q = $Q." , ".$arguments[$x];
                                      }
                                     $x++;
-
                                }
 
                               $Q = $Q." FROM ". $arguments[1] . " WHERE ". $arguments[$x] ." LIKE  '". $arguments[++$x]."'";
@@ -409,17 +405,12 @@ final class data_base_query{
                }
                $Q = $Q." FROM ".$arguments[1]." WHERE ".$arguments[$x];
                 if($arguments[++$x] == "NULL"){
-
                   $Q = $Q." IS ".$arguments[$x];
-
                 }
                 else{
-
                   $Q = $Q." = '".$arguments[$x]."'";
                 }
-
-            
-               
+              
                if($runquery = mysqli_query($this->link_open,$Q)){
                      if(mysqli_num_rows($runquery) >= 1){
                            $result = array();
@@ -487,17 +478,12 @@ final class data_base_query{
 
                }
                if($arguments[++$x] == "NULL"){
-                 
                     $Q = $Q." IS ".$arguments[$x];
-
                }
                else{
-                     
                     $Q = $Q." = '".$arguments[$x]."'";
-
                }
 
-              
                if($runquery = mysqli_query($this->link_open,$Q)){
                      if(mysqli_num_rows($runquery) >= 1){
                            $result = array();
@@ -548,51 +534,38 @@ final class data_base_query{
                   $Q = "DROP TABLE $arguments[1]";
 
                   if(mysqli_query($this->link_open,$Q)){
-
                         mysqli_close($this->link_open);
                         return 1;
-
                   }
                   else{
-
                         mysqli_close($this->link_open);
                         return 0;
-
                   }
            }
            else{
-
                     mysqli_close($this->link_open);
                     return 0;
-
            }
-
  }
-
-
+     
   function add_field(){
 
            $args_num = func_num_args();
            $arguments = func_get_args();
 
            if($args_num > 3){
-
                if(!data_base_query::db_conn($arguments[0])){
                         return 0;
                }
               
               $Q = "ALTER TABLE $arguments[1] ADD $arguments[2] $arguments[3]";
-
               echo"$Q";
 
               if(mysqli_query($this->link_open,$Q)){
-
                    mysqli_close($this->link_open);
                    return 1;
-
               }
               else{
-
                    mysqli_close($this->link_open);
                    return 0;
               }
@@ -601,8 +574,6 @@ final class data_base_query{
                   echo"<br>check arguments<br>";
                   return 0;
            }
-
-
   }
 
   function remove_field(){
@@ -619,17 +590,14 @@ final class data_base_query{
                    $Q = "ALTER TABLE $arguments[1] DROP ";
 
                    $x = 2;
-
                    while($x < $args_num){
  
-                          if($x == 2){
-                                    
+                          if($x == 2){       
                                     $Q = $Q.$arguments[$x];
                           }
                           else{
                                     $Q = $Q.", DROP ".$arguments[$x];
                           }
-
                           $x++;
                    }
 

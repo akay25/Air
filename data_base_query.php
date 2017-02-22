@@ -468,14 +468,10 @@ final class data_base_query{
                $Q = $Q." FROM ".$arguments[1]." WHERE ".$arguments[$x];
 
                if($arguments[++$x] == "NULL"){
-                 
                     $Q = $Q." IS ".$arguments[$x]." AND ". $arguments[++$x];
-
                }
                else{
-
                     $Q = $Q." ='".$arguments[$x]."' AND ".$arguments[++$x];
-
                }
                if($arguments[++$x] == "NULL"){
                     $Q = $Q." IS ".$arguments[$x];

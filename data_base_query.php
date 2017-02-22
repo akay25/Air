@@ -477,27 +477,56 @@ final class data_base_query{
                   $Q = "DROP TABLE $arguments[1]";
 
                   if(mysqli_query($this->link_open,$Q)){
-
                         mysql_close($this->link_open);
                         return 1;
-
                   }
                   else{
-
                         mysqli_close($this->link_open);
                         return 0;
-
                   }
            }
            else{
-
                     mysqli_close($this->link_open);
                     return 0;
-
            }
-
  }
+     
+  function remove_field(){
 
+            $args_num = func_num_args();
+            $arguments = func_get_args();
+
+            if($args_num > 2){
+  
+                   if(!data_base_query::db_conn($arguments[0])){
+                          return 0;
+                   }
+                   $Q = "ALTER TABLE $arguments[1] DROP ";
+                   $x = 2;
+                   while($x < $args_num){
+ 
+                          if($x == 2){           
+                                    $Q = $Q.$arguments[$x];
+                          }
+                          else{
+                                    $Q = $Q.", DROP ".$arguments[$x];
+                          }
+                          $x++;
+                   }
+                   if(mysqli_query($this->link_open,$Q)){
+                                  mysqli_close($this->link_open);
+                                  return 1;
+                   }
+                   else{
+                            mysqli_close($this->link_open);
+                            return 0;
+                   }
+            }
+            else{
+                  echo"<br>check number of arguments<br>";
+                  return 0;
+            }
+  }
 } 
 
 $object = new data_base_query('localhost','root','');

@@ -46,11 +46,8 @@ class MySQL{
         $this->username = $username;
         $this->password = $password;
         $this->conn_link = mysqli_connect("$this->host", "$this->username", "$this->password");
-        if(!$this->conn_link){
+        if(!$this->conn_link)
             echo 'Failed to connect to MySQL : ' . mysqli_connect_error();
-            return false;
-        }
-        return true;
     }
 	
     function __destruct() {

@@ -52,6 +52,10 @@ class MySQL{
         }
         return true;
     }
+	
+    function __destruct() {
+	    mysqli_close($this->conn_link);
+    }
 
     /*use:
         Syntax:

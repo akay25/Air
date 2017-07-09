@@ -19,12 +19,11 @@ class MySQL{
     */
     function db_connect($database){
         $this->database = $database;
-        $this->conn_link = mysqli_connect("$this->host", "$this->username", "$this->password");
         if(!$this->conn_link){
             echo 'Failed to connect to MySQL : ' . mysqli_connect_error();
             return false;
         }
-        $dc = mysqli_select_db($this->link, "$this->database");
+        $dc = mysqli_select_db($this->conn_link, "$this->database");
         if(!$dc){
             mysqli_close($this->conn_link);
             unset($dc);
@@ -42,14 +41,16 @@ class MySQL{
             
         Returns true/false
     */
-    function __construct($host, $username, $password, $database=null){
+    function __construct($host, $username, $password){
         $this->host = $host;
         $this->username = $username;
         $this->password = $password;
-
-        if(!$database == null)
-            db_connect($database);
-        
+        $this->conn_link = mysqli_connect("$this->host", "$this->username", "$this->password");
+        if(!$this->conn_link){
+            echo 'Failed to connect to MySQL : ' . mysqli_connect_error();
+            return false;
+        }
+        return true;
     }
 
     /*use:
@@ -271,7 +272,7 @@ class MySQL{
     */
     function select(){
 		$arg_num = func_num_args();
-    	$arguments = func_get_args();
+    		$arguments = func_get_args();
             
 		if($arg_num < 2){
 			echo 'Check the supplied fields.';
@@ -282,16 +283,18 @@ class MySQL{
 		
 		if($arg_num == 3)
 			$sql .= ' WHERE ' . $arguments[2];
-		
-        if($result){
-            $row = mysqli_fetch_assoc($result);
-            return $row;
-        }else{
-            echo 'Error in SELECT function in MySQL table:' . mysqli_error($this->conn_link);
-            echo '<br>';
-            echo 'Your query : ' . $sql;
-            return false;
-        }
+		$result = mysqli_query($this->conn_link, $sql);
+		if($result){
+		    $rows = [];
+		    while($row = mysqli_fetch_assoc($result))
+			array_push($rows, $row);
+		    return $rows;
+		}else{
+		    echo 'Error in SELECT function in MySQL table:' . mysqli_error($this->conn_link);
+		    echo '<br>';
+		    echo 'Your query : ' . $sql;
+		    return false;
+		}
 	}
 	
     /*use:
@@ -319,7 +322,7 @@ class MySQL{
             if($res > 0)
                 return $res;
             else{
-				echo 'No row found matching your condition.';
+		echo 'No row found matching your condition.';
                 echo '<br>';
                 echo 'Your query : ' . $sql;
                 return false;
@@ -360,7 +363,7 @@ class MySQL{
             if($res > 0)
                 return $res;
             else{
-				echo 'No row found matching your condition.';
+		echo 'No row found matching your condition.';
                 echo '<br>';
                 echo 'Your query : ' . $sql;
                 return false;
